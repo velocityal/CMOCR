@@ -71,6 +71,9 @@
             this.label11 = new System.Windows.Forms.Label();
             this.txtExportSize = new System.Windows.Forms.NumericUpDown();
             this.groupBox2 = new System.Windows.Forms.GroupBox();
+            this.textBox1 = new System.Windows.Forms.TextBox();
+            this.textBox2 = new System.Windows.Forms.TextBox();
+            this.checkBox1 = new System.Windows.Forms.CheckBox();
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).BeginInit();
             this.panel1.SuspendLayout();
             ((System.ComponentModel.ISupportInitialize)(this.txtPostMergeFilter)).BeginInit();
@@ -97,6 +100,7 @@
             this.btnOpenFile.TabIndex = 0;
             this.btnOpenFile.Text = "...";
             this.btnOpenFile.UseVisualStyleBackColor = true;
+            this.btnOpenFile.Visible = false;
             this.btnOpenFile.Click += new System.EventHandler(this.btnOpenFile_Click);
             // 
             // txtFile
@@ -106,12 +110,14 @@
             this.txtFile.Size = new System.Drawing.Size(193, 20);
             this.txtFile.TabIndex = 1;
             this.toolTip1.SetToolTip(this.txtFile, "Image to load and analyze.");
+            this.txtFile.Visible = false;
             // 
             // pictureBox1
             // 
-            this.pictureBox1.Location = new System.Drawing.Point(3, 3);
+            this.pictureBox1.Dock = System.Windows.Forms.DockStyle.Left;
+            this.pictureBox1.Location = new System.Drawing.Point(0, 0);
             this.pictureBox1.Name = "pictureBox1";
-            this.pictureBox1.Size = new System.Drawing.Size(342, 269);
+            this.pictureBox1.Size = new System.Drawing.Size(342, 665);
             this.pictureBox1.SizeMode = System.Windows.Forms.PictureBoxSizeMode.AutoSize;
             this.pictureBox1.TabIndex = 2;
             this.pictureBox1.TabStop = false;
@@ -162,6 +168,7 @@
             0,
             0,
             0});
+            this.txtPostMergeFilter.Visible = false;
             // 
             // label1
             // 
@@ -175,6 +182,7 @@
             this.toolTip1.SetToolTip(this.label1, "The size of blobs (width*height) that will get filtered\r\nafter the merge process " +
         "finished. This is used\r\nto filter some medium sized blobs that are most\r\nlikely " +
         "not letters.");
+            this.label1.Visible = false;
             // 
             // label2
             // 
@@ -187,6 +195,7 @@
             this.label2.Text = "Pre Merge Filter Size:";
             this.toolTip1.SetToolTip(this.label2, "The size of blobs (width*height) that will get filtered\r\nbefore the merge process" +
         " take place. This is used\r\nto filter some very small blobs.");
+            this.label2.Visible = false;
             // 
             // txtPreMergeFilter
             // 
@@ -210,6 +219,7 @@
             0,
             0,
             0});
+            this.txtPreMergeFilter.Visible = false;
             // 
             // lblSelected
             // 
@@ -231,6 +241,7 @@
             this.label3.TabIndex = 14;
             this.label3.Text = "Height Merge Sensitivity:";
             this.toolTip1.SetToolTip(this.label3, resources.GetString("label3.ToolTip"));
+            this.label3.Visible = false;
             // 
             // txtHeightMergeSense
             // 
@@ -250,10 +261,11 @@
             this.txtHeightMergeSense.Size = new System.Drawing.Size(54, 20);
             this.txtHeightMergeSense.TabIndex = 13;
             this.txtHeightMergeSense.Value = new decimal(new int[] {
-            10,
+            3,
             0,
             0,
             0});
+            this.txtHeightMergeSense.Visible = false;
             // 
             // label4
             // 
@@ -265,6 +277,7 @@
             this.label4.TabIndex = 12;
             this.label4.Text = "Width Merge Sensitivity:";
             this.toolTip1.SetToolTip(this.label4, "See tooltip for \"Height Merge Sensitivity\"");
+            this.label4.Visible = false;
             // 
             // txtWidthMergeSense
             // 
@@ -284,10 +297,11 @@
             this.txtWidthMergeSense.Size = new System.Drawing.Size(54, 20);
             this.txtWidthMergeSense.TabIndex = 11;
             this.txtWidthMergeSense.Value = new decimal(new int[] {
-            10,
+            15,
             0,
             0,
             0});
+            this.txtWidthMergeSense.Visible = false;
             // 
             // label5
             // 
@@ -300,6 +314,7 @@
             this.label5.Text = "Binarization Thershold:";
             this.toolTip1.SetToolTip(this.label5, "The pixel intensity (between 0-255) that separates\r\nbetween the black and white i" +
         "n the binarization process.");
+            this.label5.Visible = false;
             // 
             // txtBinThershold
             // 
@@ -319,10 +334,11 @@
             this.txtBinThershold.Size = new System.Drawing.Size(54, 20);
             this.txtBinThershold.TabIndex = 15;
             this.txtBinThershold.Value = new decimal(new int[] {
-            200,
+            100,
             0,
             0,
             0});
+            this.txtBinThershold.Visible = false;
             // 
             // chkShowBinarize
             // 
@@ -336,6 +352,7 @@
             this.toolTip1.SetToolTip(this.chkShowBinarize, "The blob recognition is running on a binarized \r\nimage (B&W), check this to see t" +
         "he binarized image.");
             this.chkShowBinarize.UseVisualStyleBackColor = true;
+            this.chkShowBinarize.Visible = false;
             this.chkShowBinarize.CheckedChanged += new System.EventHandler(this.chkShowBinarize_CheckedChanged);
             // 
             // groupBox1
@@ -355,6 +372,7 @@
             this.groupBox1.Text = "Move Selected Blobs";
             this.toolTip1.SetToolTip(this.groupBox1, "Move the selected blobs.\r\nIn order to change the size of the blob hover the\r\nblob" +
         " edge and drag.");
+            this.groupBox1.Visible = false;
             // 
             // label6
             // 
@@ -431,6 +449,7 @@
             this.toolTip1.SetToolTip(this.chkShowRows, "The tool tries to automatically group the letters\r\ninto rows, which will be expor" +
         "ted together.\r\nIf you don\'t want to see those rows uncheck this checkbox.");
             this.chkShowRows.UseVisualStyleBackColor = true;
+            this.chkShowRows.Visible = false;
             this.chkShowRows.CheckedChanged += new System.EventHandler(this.chkShowRows_CheckedChanged);
             // 
             // btnExport
@@ -453,6 +472,7 @@
             this.label7.Size = new System.Drawing.Size(66, 13);
             this.label7.TabIndex = 23;
             this.label7.Text = "Input Image:";
+            this.label7.Visible = false;
             // 
             // label8
             // 
@@ -488,6 +508,7 @@
             this.txtModelParams.Name = "txtModelParams";
             this.txtModelParams.Size = new System.Drawing.Size(193, 20);
             this.txtModelParams.TabIndex = 28;
+            this.txtModelParams.Visible = false;
             // 
             // label9
             // 
@@ -499,6 +520,7 @@
             this.label9.TabIndex = 29;
             this.label9.Text = "Extracted Back Color:";
             this.toolTip1.SetToolTip(this.label9, resources.GetString("label9.ToolTip"));
+            this.label9.Visible = false;
             // 
             // txtExtractedBackColor
             // 
@@ -517,6 +539,12 @@
             this.txtExtractedBackColor.Name = "txtExtractedBackColor";
             this.txtExtractedBackColor.Size = new System.Drawing.Size(54, 20);
             this.txtExtractedBackColor.TabIndex = 30;
+            this.txtExtractedBackColor.Value = new decimal(new int[] {
+            255,
+            0,
+            0,
+            0});
+            this.txtExtractedBackColor.Visible = false;
             // 
             // label10
             // 
@@ -526,6 +554,7 @@
             this.label10.Size = new System.Drawing.Size(77, 13);
             this.label10.TabIndex = 31;
             this.label10.Text = "Model Params:";
+            this.label10.Visible = false;
             // 
             // btnOpenModelFile
             // 
@@ -535,6 +564,7 @@
             this.btnOpenModelFile.TabIndex = 32;
             this.btnOpenModelFile.Text = "...";
             this.btnOpenModelFile.UseVisualStyleBackColor = true;
+            this.btnOpenModelFile.Visible = false;
             this.btnOpenModelFile.Click += new System.EventHandler(this.btnOpenModelFile_Click);
             // 
             // toolTip1
@@ -563,6 +593,7 @@
             this.label11.Size = new System.Drawing.Size(154, 13);
             this.label11.TabIndex = 34;
             this.label11.Text = "Hover controls for tooltips";
+            this.label11.Visible = false;
             // 
             // txtExportSize
             // 
@@ -600,12 +631,41 @@
             this.groupBox2.TabIndex = 37;
             this.groupBox2.TabStop = false;
             this.groupBox2.Text = "Export";
+            this.groupBox2.Visible = false;
+            // 
+            // textBox1
+            // 
+            this.textBox1.Location = new System.Drawing.Point(609, 5);
+            this.textBox1.Name = "textBox1";
+            this.textBox1.Size = new System.Drawing.Size(245, 20);
+            this.textBox1.TabIndex = 38;
+            // 
+            // textBox2
+            // 
+            this.textBox2.Location = new System.Drawing.Point(609, 34);
+            this.textBox2.Name = "textBox2";
+            this.textBox2.Size = new System.Drawing.Size(245, 20);
+            this.textBox2.TabIndex = 39;
+            // 
+            // checkBox1
+            // 
+            this.checkBox1.AutoSize = true;
+            this.checkBox1.Location = new System.Drawing.Point(867, 10);
+            this.checkBox1.Name = "checkBox1";
+            this.checkBox1.Size = new System.Drawing.Size(97, 17);
+            this.checkBox1.TabIndex = 40;
+            this.checkBox1.Text = "Precise Control";
+            this.checkBox1.UseVisualStyleBackColor = true;
+            this.checkBox1.CheckedChanged += new System.EventHandler(this.CheckBox1_CheckedChanged);
             // 
             // OCRTool
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1083, 738);
+            this.Controls.Add(this.checkBox1);
+            this.Controls.Add(this.textBox2);
+            this.Controls.Add(this.textBox1);
             this.Controls.Add(this.groupBox2);
             this.Controls.Add(this.label11);
             this.Controls.Add(this.btnOpenModelFile);
@@ -634,7 +694,7 @@
             this.Controls.Add(this.txtFile);
             this.Controls.Add(this.btnOpenFile);
             this.Name = "OCRTool";
-            this.Text = "OCR Helper Tool";
+            this.Text = "Precision Control";
             ((System.ComponentModel.ISupportInitialize)(this.pictureBox1)).EndInit();
             this.panel1.ResumeLayout(false);
             this.panel1.PerformLayout();
@@ -698,5 +758,8 @@
         private System.Windows.Forms.NumericUpDown txtExportSize;
         private System.Windows.Forms.Label label12;
         private System.Windows.Forms.GroupBox groupBox2;
+        private System.Windows.Forms.TextBox textBox1;
+        private System.Windows.Forms.TextBox textBox2;
+        private System.Windows.Forms.CheckBox checkBox1;
     }
 }

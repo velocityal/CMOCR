@@ -8,9 +8,11 @@ using System.Linq;
 using System.Windows.Forms;
 using AForge.Imaging;
 using AForge.Imaging.Filters;
+using GoogleTranslateFreeApi;
 using MachineLearningOCRTool.Controls;
 using MathNet.Numerics;
 using MathNet.Numerics.LinearAlgebra.Complex;
+
 
 namespace MachineLearningOCRTool.Views
 {
@@ -19,6 +21,7 @@ namespace MachineLearningOCRTool.Views
         #region Members
 
         // This list holds the selected blobs
+        public String Transd;
         private List<BlobPanel> m_selectedBlobs;
         System.Drawing.Image img;
         Boolean mouseClicked;
@@ -27,12 +30,18 @@ namespace MachineLearningOCRTool.Views
         Rectangle rectCropArea;
         private Bitmap m_original;
         private Bitmap m_binarized;
+        private Bitmap ref_original;
         List<object> m_outString = new List<object>();
         #endregion
 
-        public OCRTool()
+        public OCRTool(Bitmap cropImage)
         {
+            String value = "";
+            m_original = cropImage;
+            ref_original = cropImage;
             InitializeComponent();
+            panel1.VerticalScroll.Value = panel1.VerticalScroll.Maximum;
+            pictureBox1.Image = m_original;
             m_selectedBlobs = new List<BlobPanel>();
             mouseClicked = false;
 
@@ -41,7 +50,7 @@ namespace MachineLearningOCRTool.Views
             SetStyle(ControlStyles.SupportsTransparentBackColor, true);
             Common.SetDoubleBuffered(pictureBox1);
 
-            if(!string.IsNullOrEmpty(Properties.Settings.Default.InputImage))
+            if (!string.IsNullOrEmpty(Properties.Settings.Default.InputImage))
             {
                 txtFile.Text = Properties.Settings.Default.InputImage;
             }
@@ -55,24 +64,28 @@ namespace MachineLearningOCRTool.Views
             {
                 txtOutput.Text = Properties.Settings.Default.OutputFile;
             }
-
+            Transd = textBox2.Text;
+//            UI.AddTransString(textBox2.Text);
+           // return textBox2.Text;
         }
 
         #region Methods
-
-        private void ProcessImage()
-        {
+        private void ProcessImage(Bitmap source)
+            { 
+                try
+                { 
+            m_outString.Clear();
             m_selectedBlobs.Clear();
-            pictureBox1.Controls.Clear();
+                pictureBox1.Controls.Clear();
             pictureBox1.Image = null;
 
-            if (m_original != null)
-                m_original.Dispose();
-            if (m_binarized != null)
-                m_binarized.Dispose();
+            //if (m_original != null)
+            //    m_original.Dispose();
+            //if (m_binarized != null)
+            //    m_binarized.Dispose();
 
-            m_original = new Bitmap(txtFile.Text);
-
+            //m_original = new Bitmap(txtFile.Text);
+            m_original = ref_original;
             // create grayscale filter (BT709)
             Grayscale filter = new Grayscale(0.2125, 0.7154, 0.0721);
             m_binarized = filter.Apply(m_original);
@@ -100,6 +113,11 @@ namespace MachineLearningOCRTool.Views
             pictureBox1.Image = chkShowBinarize.Checked ? m_binarized : m_original;
 
             pictureBox1.Invalidate();
+            }
+            catch (Exception ex)
+            {
+                pictureBox1.Image = ref_original;
+            }
         }
 
         /// <summary>
@@ -373,7 +391,7 @@ namespace MachineLearningOCRTool.Views
         /// <summary>
         /// Load the model from the file and predict.
         /// </summary>
-        private void LoadModelAndPredict()
+        private async System.Threading.Tasks.Task LoadModelAndPredictAsync()
         {
             if (!File.Exists(txtModelParams.Text))
             {
@@ -439,7 +457,24 @@ namespace MachineLearningOCRTool.Views
                 blob.Title = Common.Letters[maxIndex[0]];
                 m_outString.Add(blob.Title);
             }
+            textBox1.Text = string.Join("", m_outString);
 
+            var translator = new GoogleTranslator();
+
+            Language from = Language.Japanese;
+            Language to = GoogleTranslator.GetLanguageByName("English");
+
+            TranslationResult result = await translator.TranslateLiteAsync(textBox1.Text, from, to);
+
+            //The result is separated by the suggestions and the '\n' symbols
+            string[] resultSeparated = result.FragmentedTranslation;
+
+            //You can get all text using MergedTranslation property
+            string resultMerged = result.MergedTranslation;
+
+            //There is also original text transcription
+            string transcription = result.TranslatedTextTranscription; // Kon'nichiwa! Ogenkidesuka?
+            textBox2.Text = resultMerged;
             pictureBox1.Invalidate();
         }
 
@@ -557,7 +592,7 @@ namespace MachineLearningOCRTool.Views
 
         private void button1_Click(object sender, EventArgs e)
         {
-            ProcessImage();
+            ProcessImage(m_original);
         }
 
         private void blobPanel_SelectedChanged(object sender, EventArgs e)
@@ -683,14 +718,48 @@ namespace MachineLearningOCRTool.Views
 
         private void btnPredict_Click(object sender, EventArgs e)
         {
-            LoadModelAndPredict();
+            LoadModelAndPredictAsync();
         }
+
 
         // This area is for cropping
 
-        
+
 
 
         #endregion
+
+        private void CheckBox1_CheckedChanged(object sender, EventArgs e)
+        {
+            if (checkBox1.Checked == true)
+            {
+                chkShowBinarize.Visible = true;
+                label5.Visible = true;
+                txtBinThershold.Visible = true;
+                label3.Visible = true;
+                txtHeightMergeSense.Visible = true;
+                label4.Visible = true;
+                txtWidthMergeSense.Visible = true;
+                label10.Visible = true;
+                txtModelParams.Visible = true;
+                btnOpenModelFile.Visible = true;
+                btnPredict.Visible = true;
+            }
+            if (checkBox1.Checked == false)
+            {
+                chkShowBinarize.Visible = false;
+                label5.Visible = false;
+                txtBinThershold.Visible = false;
+                label3.Visible = false;
+                txtHeightMergeSense.Visible = false;
+                label4.Visible = false;
+                txtWidthMergeSense.Visible = false;
+                label10.Visible = false;
+                txtModelParams.Visible = false;
+                btnOpenModelFile.Visible = false;
+                btnPredict.Visible = false;
+            }
+
+        }
     }
 }
